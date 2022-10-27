@@ -1,10 +1,15 @@
 import { Configuration, RedirectRequest, LogLevel } from "@azure/msal-browser";
 
-// Config client ID for application in Azure AD B2C tenant
-const ClientId = "11111111-1111-1111-1111-111111111111";
-
 // Replace this value with the name of your Azure AD B2C tenant
 export const tenantName = "YOUR_TENANT_NAME";
+
+// Replace value for client ID for SPA application you created in Azure AD B2C tenant
+const clientId = "11111111-1111-1111-1111-111111111111";
+
+// make sure delegated permission scope is correct
+export const AppOwnsDataApiPermissionScopes: string[] = [
+    "https://" + tenantName + ".onmicrosoft.com/" + clientId + "/Reports.Embed"
+]
 
 export const authorityDomain = tenantName + ".b2clogin.com";
 export const tenantDomain = tenantName + ".onmicrosoft.com";
@@ -44,7 +49,7 @@ export const b2cPolicies = {
 
 export const msalConfig: Configuration = {
     auth: {
-        clientId: ClientId,
+        clientId: clientId,
         authority: b2cPolicies.authorities.signUpSignIn.authority,
         knownAuthorities: [b2cPolicies.authorityDomain],
         redirectUri: "/",
@@ -74,10 +79,6 @@ export const msalConfig: Configuration = {
     }
 
 };
-
-export const AppOwnsDataApiPermissionScopes: string[] = [
-    "https://powerbidevcampauth.onmicrosoft.com/81d70ab2-2492-4203-9fa0-40f5d6d36c31/Reports.Embed"
-]
 
 export const SignInSignUpRequest: RedirectRequest = {
     scopes: AppOwnsDataApiPermissionScopes,
